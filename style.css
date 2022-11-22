@@ -1,0 +1,15 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  border: 0px;
+}
+th, td {
+  text-align: center;;
+  padding: 8px;
+}
+table td:nth-child(1) {
+  text-align: left;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
