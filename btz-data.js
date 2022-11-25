@@ -13,7 +13,7 @@ const RESPONSE_EXAMPLE = {
     {
       "Item": "Ascensores",
       "column": {
-        "12-SS": 0,
+        "12-SS": 1,
         "13-PB": 0,
         "14-N1": 0,
         "15-N2": 0,
@@ -1074,7 +1074,7 @@ const RESPONSE_EXAMPLE = {
 }
 
 // handle API response
-function handleResponse(response) {
+function handleDataFromApi(response) {
   const { DATA: dataFromApi } = response;
 
   // Transform column keys from [labelKey-name: value] to [name: value]
@@ -1100,7 +1100,7 @@ function handleResponse(response) {
 // Builds the HTML Table out of dataSet.
 function buildHtmlTable(selector) {
   getDataFromApi().then((res) => {
-    const dataSet = handleResponse(res);
+    const dataSet = handleDataFromApi(res);
 
     let columns = addAllColumnHeaders(dataSet, selector);
   
