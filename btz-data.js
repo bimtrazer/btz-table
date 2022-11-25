@@ -1099,41 +1099,43 @@ function handleResponse(response) {
 
 // Builds the HTML Table out of dataSet.
 function buildHtmlTable(selector) {
-  const dataSet = handleResponse(RESPONSE_EXAMPLE);
+  getDataFromApi().then((res) => {
+    const dataSet = handleResponse(res);
 
-  let columns = addAllColumnHeaders(dataSet, selector);
-  for (let i = 0; i < dataSet.length; i++) {
-    let row$ = $('<tr/>');
-    for (let colIndex = 0; colIndex < columns.length; colIndex++) {
-      let cellValue = dataSet[i][columns[colIndex]];
-      if (cellValue == null) cellValue = "";
-      let rtd = false
-      if (cellValue <= 34){
-        //row$.append($('<td bgcolor = black /><font color = white/>').html(cellValue));
-        row$.append($('<td bgcolor = black ></td>').html(cellValue));
-        dataSet[i][columns[colIndex]]
-        rtd = true;
+    let columns = addAllColumnHeaders(dataSet, selector);
+  
+    for (let i = 0; i < dataSet.length; i++) {
+      let row$ = $('<tr/>');
+      for (let colIndex = 0; colIndex < columns.length; colIndex++) {
+        let cellValue = dataSet[i][columns[colIndex]];
+        if (cellValue == null) cellValue = "";
+        let rtd = false
+        if (cellValue <= 34){
+          //row$.append($('<td bgcolor = black /><font color = white/>').html(cellValue));
+          row$.append($('<td bgcolor = black ></td>').html(cellValue));
+          dataSet[i][columns[colIndex]]
+          rtd = true;
+        }
+        if (cellValue > 34 && cellValue <= 69 ){
+          row$.append($('<td bgcolor = red />').html(cellValue));
+          rtd = true;
+        } 
+        if (cellValue > 69 && cellValue <= 94 ){
+          row$.append($('<td bgcolor = yellow />').html(cellValue));
+          rtd = true;
+        } 
+        if (cellValue > 94 && cellValue <= 100 ){
+          row$.append($('<td bgcolor = green />').html(cellValue));
+          rtd = true;
+        } 
+  
+        if (rtd==false){
+          row$.append($('<td/>').html(cellValue));
+        }
       }
-      if (cellValue > 34 && cellValue <= 69 ){
-        row$.append($('<td bgcolor = red />').html(cellValue));
-        rtd = true;
-      } 
-      if (cellValue > 69 && cellValue <= 94 ){
-        row$.append($('<td bgcolor = yellow />').html(cellValue));
-        rtd = true;
-      } 
-      if (cellValue > 94 && cellValue <= 100 ){
-        row$.append($('<td bgcolor = green />').html(cellValue));
-        rtd = true;
-      } 
-
-      if (rtd==false){
-        row$.append($('<td/>').html(cellValue));
-      }
+      $(selector).append(row$);
     }
-    $(selector).append(row$);
-  }
-    
+  });
 }
 
 function addAllColumnHeaders(dataSet, selector) {
@@ -1183,4 +1185,16 @@ function exportTableToExcel(tableID, filename = ''){
         //triggering the function
         downloadLink.click();
     }
+}
+
+// remake a function to get data from API using promises
+function getDataFromApi() {
+  const URL = 'http://36.bimtrazer.com/'
+
+  return fetch(URL)
+    .then(response => response.json())
+    .catch(error => {
+      console.error(error)
+      return RESPONSE_EXAMPLE
+    })
 }
