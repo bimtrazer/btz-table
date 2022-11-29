@@ -1,4 +1,6 @@
 function handleApiData(response) {
+  if (!response) return null
+
   const { DATA: dataFromApi } = response;
 
   // Transform column keys from [labelKey-name: value] to [name: value]
@@ -27,6 +29,16 @@ function buildHtmlTable(selector) {
   getDataFromApi(projectId).then((res) => {
     console.log('res', res)
     const dataSet = handleApiData(res);
+
+    if (!dataSet) {
+      // get body element and add a message
+      const body = document.getElementsByTagName('body')[0];
+      const message = document.createElement('p');
+      message.innerHTML = 'No data found';
+      body.appendChild(message);
+      
+      return
+    }
 
     let columns = addAllColumnHeaders(dataSet, selector);
   
