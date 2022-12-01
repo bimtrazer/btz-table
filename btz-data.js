@@ -27,7 +27,9 @@ function handleApiData(response) {
 function buildHtmlTable(selector) {
   const projectId = '36dev'
   getDataFromApi(projectId).then((res) => {
+
     console.log('res', res)
+    
     const dataSet = handleApiData(res);
 
     if (!dataSet) {
@@ -49,8 +51,7 @@ function buildHtmlTable(selector) {
         if (cellValue == null) cellValue = "";
         let rtd = false
         if (cellValue <= 34){
-          //row$.append($('<td bgcolor = black /><font color = white/>').html(cellValue));
-          row$.append($('<td bgcolor = black ></td>').html(cellValue));
+          row$.append($('<td bgcolor = black style="color: #e5e5e5" ></td>').html(cellValue));
           dataSet[i][columns[colIndex]]
           rtd = true;
         }
